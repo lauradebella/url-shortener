@@ -1,0 +1,63 @@
+{
+	"info": {
+		"_postman_id": "a7c69fb4-7bee-4aaf-8ce9-c941c4f471db",
+		"name": "url-shortener",
+		"description": "An API to short URLs.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Short Url",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0397bd78-06c4-4226-ae0e-fb0f8372d24a",
+						"exec": [
+							"tests[\"response code is 200\"] = responseCode.code === 200;",
+							"",
+							"if (responseCode.code === 200) {",
+							"    var jsonData = JSON.parse(responseBody);",
+							"    ",
+							"    tests[\"short url is returned\"] = jsonData.shortUrl !== undefined;",
+							"    postman.setGlobalVariable(\"shorturl\", jsonData.shortUrl);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"longUrl\": \"http://www.google.com\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/short",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"short"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
