@@ -17,10 +17,16 @@ public class UrlService {
         this.urlRepository = urlRepository;
     }
 
-    public Url shortUrl(String longUrl) {
-        String shortUrl = urlShortIdGenerator.generateShorterUrl();
-        Url url = new Url(longUrl, shortUrl);
-        urlRepository.save(url);
+    public Url shortUrl(String longUrl){
+
+        Url url = urlRepository.findByLongUrl(longUrl);
+        if(url == null) {
+
+            String shortUrl = urlShortIdGenerator.generateShorterUrl();
+            url = new Url(longUrl, shortUrl);
+
+            urlRepository.save(url);
+        }
         return url;
     }
 }
