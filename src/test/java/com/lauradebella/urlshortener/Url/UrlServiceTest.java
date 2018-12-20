@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -19,6 +20,9 @@ public class UrlServiceTest {
     @Mock
     private UrlShortIdGenerator urlShortIdGenerator;
 
+    @Mock
+    private UrlRepository repository;
+
     private UrlService service;
 
     String shortUrl;
@@ -28,13 +32,14 @@ public class UrlServiceTest {
     @Before
     public void setup() {
         initMocks(this);
-        this.service = new UrlService(urlShortIdGenerator);
+        this.service = new UrlService(urlShortIdGenerator, repository);
 
         longUrl = "longUrl.com";
-        shortUrl = "short.com";
+        shortUrl = "short.com/abc";
         expectedUrl = Url.builder()
                 .longUrl(longUrl)
                 .shortUrl(shortUrl)
+                .shortUrlId("abc")
                 .build();;
     }
 
@@ -47,4 +52,16 @@ public class UrlServiceTest {
         assertThat(result.getShortUrl()).isEqualTo(expectedUrl.getShortUrl());
         assertThat(result.getLongUrl()).isEqualTo(expectedUrl.getLongUrl());
     }
+
+    @Test
+    public void saveShortedUrlOnDatabase() {
+        when(urlShortIdGenerator.generateShorterUrl()).thenReturn(shortUrl);
+
+        service.shortUrl(longUrl);
+
+        verify(repository).save(expectedUrl);
+
+    }
+
+        //todo not save again
 }

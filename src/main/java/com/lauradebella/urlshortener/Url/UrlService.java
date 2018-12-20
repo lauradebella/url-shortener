@@ -9,13 +9,18 @@ public class UrlService {
 
     private UrlShortIdGenerator urlShortIdGenerator;
 
+    private UrlRepository urlRepository;
+
     @Autowired
-    public UrlService(UrlShortIdGenerator urlShortIdGenerator) {
+    public UrlService(UrlShortIdGenerator urlShortIdGenerator, UrlRepository urlRepository) {
         this.urlShortIdGenerator = urlShortIdGenerator;
+        this.urlRepository = urlRepository;
     }
 
     public Url shortUrl(String longUrl) {
         String shortUrl = urlShortIdGenerator.generateShorterUrl();
-        return new Url(longUrl, shortUrl);
+        Url url = new Url(longUrl, shortUrl);
+        urlRepository.save(url);
+        return url;
     }
 }
