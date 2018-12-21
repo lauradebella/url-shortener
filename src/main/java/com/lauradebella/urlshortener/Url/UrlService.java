@@ -29,4 +29,13 @@ public class UrlService {
         }
         return url;
     }
+
+    public String enlarge(String shortUrlId) throws UrlNotFoundException {
+
+        Url url = urlRepository.findByShortUrlId(shortUrlId);
+        if (url == null)
+            throw new UrlNotFoundException("Url not found");
+
+        return url.getLongUrl();
+    }
 }
