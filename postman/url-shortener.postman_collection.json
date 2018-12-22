@@ -184,6 +184,28 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get Statistics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/statistics",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"statistics"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
