@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.annotation.Transient;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -39,7 +38,6 @@ public class Url {
     private String shortUrl;
 
     @JsonIgnore
-   // @Transient
     private String shortUrlId;
 
     Url(String longUrl, String shortUrl) {

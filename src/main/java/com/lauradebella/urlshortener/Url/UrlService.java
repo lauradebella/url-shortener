@@ -17,7 +17,7 @@ public class UrlService {
         this.urlRepository = urlRepository;
     }
 
-    public Url shortUrl(String longUrl){
+    Url shortUrl(String longUrl){
 
         Url url = urlRepository.findByLongUrl(longUrl);
         if(url == null) {

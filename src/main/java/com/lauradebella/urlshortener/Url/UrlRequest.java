@@ -10,13 +10,13 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @Getter
-public class UrlRequest {
+class UrlRequest {
 
     @NotBlank
     String longUrl;
 
     @JsonCreator
-    public UrlRequest(@JsonProperty("longUrl") String longUrl) {
+    UrlRequest(@JsonProperty("longUrl") String longUrl) {
         this.longUrl = longUrl;
     }
 
