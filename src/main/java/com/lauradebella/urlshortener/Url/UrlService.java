@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class UrlService {
 
-    private UrlShortIdGenerator urlShortIdGenerator;
+    private ShortUrlGenerator shortUrlGenerator;
 
     private UrlRepository urlRepository;
 
     @Autowired
-    public UrlService(UrlShortIdGenerator urlShortIdGenerator, UrlRepository urlRepository) {
-        this.urlShortIdGenerator = urlShortIdGenerator;
+    public UrlService(ShortUrlGenerator shortUrlGenerator, UrlRepository urlRepository) {
+        this.shortUrlGenerator = shortUrlGenerator;
         this.urlRepository = urlRepository;
     }
 
@@ -22,7 +22,7 @@ public class UrlService {
         Url url = urlRepository.findByLongUrl(longUrl);
         if(url == null) {
 
-            String shortUrl = urlShortIdGenerator.generateShorterUrl();
+            String shortUrl = shortUrlGenerator.generate();
             url = new Url(longUrl, shortUrl);
 
             urlRepository.save(url);
@@ -30,7 +30,7 @@ public class UrlService {
         return url;
     }
 
-    public String enlarge(String shortUrlId) throws UrlNotFoundException {
+    String enlarge(String shortUrlId) throws UrlNotFoundException {
 
         Url url = urlRepository.findByShortUrlId(shortUrlId);
         if (url == null)
