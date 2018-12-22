@@ -48,7 +48,6 @@ public class StatisticServiceTest {
     public void returnNumberOfSuccessfulAccess() {
 
         StatisticResponse result = service.getAllStatistics();
-
         assertThat(result.getNumberOfSuccessfulAccess()).isEqualTo(1);
     }
 }
