@@ -9,7 +9,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -55,5 +57,12 @@ public class UrlControllerTest {
         mockMvc.perform(get("/shortUrlId"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("longUrl.com"));
+    }
+
+    @Test
+    public void urlNotFound() throws Exception {
+        when(this.urlService.enlarge(any())).thenThrow(new UrlNotFoundException("message"));
+        mockMvc.perform(get("/shortUrlId"))
+                .andExpect(status().isNotFound());
     }
 }
