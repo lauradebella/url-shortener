@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Short Url",
+			"name": "Short url",
 			"event": [
 				{
 					"listen": "test",
@@ -45,6 +45,66 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"longUrl\": \"http://www.google.com\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/short",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"short"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid short Url request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "97959aee-6cc7-4eaa-a549-b52b68245dd9",
+						"exec": [
+							"tests[\"response code is 200\"] = responseCode.code === 400;",
+							"",
+							"if (responseCode.code === 400) {",
+							"    var jsonData = JSON.parse(responseBody);",
+							"    ",
+							"    tests[\"message is returned\"] = jsonData.errors[0].defaultMessage == \"must not be blank\";",
+							"    tests[\"field is returned\"] = jsonData.errors[0].field == \"longUrl\";",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"name": "Content-Type",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"longUrl\": \"\"\n}"
 				},
 				"url": {
 					"raw": "localhost:8080/short",
