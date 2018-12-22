@@ -3,7 +3,10 @@ package com.lauradebella.urlshortener.Statistic;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface StatisticRepository extends CrudRepository<Statistic, Long> {
+import java.util.List;
 
+@Repository
+interface StatisticRepository extends CrudRepository<Statistic, Long> {
+    List<Statistic> findByWasSuccessful(Boolean wasSuccssful);
+    List<Statistic> findByEndpoint(String endpoint);
 }

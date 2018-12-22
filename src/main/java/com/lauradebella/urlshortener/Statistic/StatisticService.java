@@ -3,6 +3,7 @@ package com.lauradebella.urlshortener.Statistic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,25 +18,24 @@ public class StatisticService {
         this.statisticRepository = statisticRepository;
     }
 
-    public StatisticResponse getAllStatistics(){
+    StatisticResponse getAllStatistics(){
 
         Iterable<Statistic> allStatistics = statisticRepository.findAll();
 
         int numberOfAccess = getNumberOfAccess(allStatistics);
-        int numberOfSuccessfulAccess = getNumberOfSuccessfulAccess(allStatistics);
+        int numberOfSuccessfulAccess = statisticRepository.findByWasSuccessful(true).size();
+        int numberOfAllShortUrlAccess = statisticRepository.findByEndpoint("short").size();
+        int numberOfAllEnlargeUrlAccess = numberOfAccess - numberOfAllShortUrlAccess;
 
-        return new StatisticResponse(numberOfAccess, numberOfSuccessfulAccess);
+        return new StatisticResponse(numberOfAccess, numberOfAllShortUrlAccess, numberOfAllEnlargeUrlAccess, numberOfSuccessfulAccess);
+    }
+
+    public void saveStatistic(String endpoint, Boolean wasSuccessful){
+        Statistic statistic = new Statistic(endpoint, wasSuccessful);
+        statisticRepository.save(statistic);
     }
 
     private int getNumberOfAccess(Iterable<Statistic> allStatistics) {
         return ((Collection<?>) allStatistics).size();
-    }
-
-    private int getNumberOfSuccessfulAccess(Iterable<Statistic> allStatistics) {
-        List<Statistic> successfulAccess = StreamSupport.stream(allStatistics.spliterator(), false)
-                .filter(statistic -> statistic.getWasSuccessful() == true)
-                .collect(Collectors.toList());
-
-        return successfulAccess.size();
     }
 }

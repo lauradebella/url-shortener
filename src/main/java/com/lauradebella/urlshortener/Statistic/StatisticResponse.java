@@ -8,6 +8,8 @@ import lombok.Getter;
 public class StatisticResponse {
 
     public int numberOfAccess;
-    public int numberOfSuccessfulAccess;
+    public int numberOfAllShortUrlRequests;
+    public int numberOfAllEnlargeUrlRequests;
 
+    public int numberOfSuccessfulAccess;
 }
