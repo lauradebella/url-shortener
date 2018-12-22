@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.Transient;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,10 +18,10 @@ import javax.persistence.UniqueConstraint;
 
 @Builder
 @Getter
-@AllArgsConstructor
 @Entity
 @Data
 @DynamicUpdate
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Url",
         indexes = {
@@ -30,7 +31,7 @@ import javax.persistence.UniqueConstraint;
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "shortUrlId")
         })
-class Url {
+public class Url {
 
     @Id
     private String longUrl;
@@ -38,6 +39,7 @@ class Url {
     private String shortUrl;
 
     @JsonIgnore
+   // @Transient
     private String shortUrlId;
 
     Url(String longUrl, String shortUrl) {

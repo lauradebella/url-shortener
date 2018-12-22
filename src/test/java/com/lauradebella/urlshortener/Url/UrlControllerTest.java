@@ -11,9 +11,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -30,7 +32,7 @@ public class UrlControllerTest {
     private UrlService urlService;
 
     @Test
-    public void shorten() throws Exception {
+    public void shortUrl() throws Exception {
         UrlRequest request = new UrlRequest("http://www.longurl.com");
         Url response = Url.builder()
                 .longUrl("http://www.longurl.com")
@@ -45,5 +47,13 @@ public class UrlControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.longUrl").value("http://www.longurl.com"))
                 .andExpect(jsonPath("$.shortUrl").value("localhost/abc"));
+    }
+
+    @Test
+    public void enlargeAndRedirectToUrl() throws Exception {
+        given(this.urlService.enlarge("shortUrlId")).willReturn("longUrl.com");
+        mockMvc.perform(get("/shortUrlId"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("longUrl.com"));
     }
 }

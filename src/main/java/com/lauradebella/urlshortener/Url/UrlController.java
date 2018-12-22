@@ -1,10 +1,13 @@
 package com.lauradebella.urlshortener.Url;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
@@ -21,8 +24,12 @@ public class UrlController {
     }
 
     @RequestMapping(value = "/short",  method= RequestMethod.POST, produces = APPLICATION_JSON_UTF8_VALUE)
-    public Url shorten(@Valid @RequestBody UrlRequest params) {
+    public Url shortUrl(@Valid @RequestBody UrlRequest params) {
         return urlService.shortUrl(params.getLongUrl());
     }
 
+    @GetMapping(value = "/{shortUrlId}")
+    public ModelAndView enlargeUrl(@PathVariable String shortUrlId) {
+        return new ModelAndView(String.format("redirect:%s", urlService.enlarge(shortUrlId)));
+    }
 }
