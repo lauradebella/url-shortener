@@ -58,6 +58,72 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Enlarge url",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a68a50c3-8195-4495-8e6a-1d5fba18ae29",
+						"exec": [
+							"tests[\"response code is 200\"] = responseCode.code === 200;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{shorturl}}",
+					"host": [
+						"{{shorturl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid short Url",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "64aad86b-a273-43f5-b29b-d4e785fc73f1",
+						"exec": [
+							"tests[\"response code is 404\"] = responseCode.code === 404;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/invalidShortUrl",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"invalidShortUrl"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
