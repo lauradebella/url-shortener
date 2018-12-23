@@ -7,7 +7,6 @@ import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 
-
 @Data
 @Getter
 class UrlRequest {
