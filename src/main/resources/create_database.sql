@@ -19,5 +19,5 @@ PRIMARY KEY (dateTime)
 );
 
 
-CREATE INDEX long_url_on_url_table ON Statistic(endpoint);
-CREATE INDEX short_url_id_on_url_table ON Statistic(was_successful);
+CREATE INDEX endpoint_on_statistic_table ON Statistic(endpoint);
+CREATE INDEX was_successful_on_statistic_table ON Statistic(was_successful);
