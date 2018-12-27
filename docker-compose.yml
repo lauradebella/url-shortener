@@ -1,0 +1,36 @@
+version: '2.1'
+
+services:
+  application:
+    build: .
+    command: bash -c "./gradlew build && java -jar build/libs/url-shortener.jar"
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/urlshortener
+    networks:
+      - my_net
+    ports:
+      - "8080:8080"
+  db:
+    image: mysql:5.7
+    volumes:
+      - dbdata:/var/lib/mysql
+    expose:
+      - "3306"
+    ports:
+      - "3306:3306"
+    command: mysqld --lower_case_table_names=1 --skip-ssl
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: urlshortener
+    networks:
+      - my_net
+volumes:
+    dbdata:
+networks:
+  my_net:
+    driver: bridge
